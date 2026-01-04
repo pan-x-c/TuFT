@@ -43,6 +43,6 @@ jobs:
       - name: Run pytest
         run: uv run pytest
 
-      - name: Check uv lockfile is up to date
-        run: |
-          uv lock --check
+      # - name: Check uv lockfile is up to date
+      #   run: |
+      #     uv lock --check

@@ -28,10 +28,10 @@ repos:
         language: system
         pass_filenames: false
 
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.9.21
-    hooks:
-      - id: uv-lock
-        name: Update uv lockfile
-        files: pyproject.toml
-        args: [--project, python]
+  # - repo: https://github.com/astral-sh/uv-pre-commit
+  #   rev: 0.9.21
+  #   hooks:
+  #     - id: uv-lock
+  #       name: Update uv lockfile
+  #       files: pyproject.toml
+  #       args: [--project, python]
