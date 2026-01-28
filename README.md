@@ -16,6 +16,7 @@ We welcome open-source collaboration. Join our community for updates and help:
 - [Installation](#installation)
 - [Use the Pre-built Docker Image](#use-the-pre-built-docker-image)
 - [Persistence](#persistence)
+- [Observability (OpenTelemetry)](#observability-opentelemetry)
 - [Architecture](#architecture)
 - [Roadmap](#roadmap)
 - [Development](#development)
@@ -225,7 +226,7 @@ You can also install TuFT directly from PyPI:
 uv pip install tuft
 
 # Install optional dependencies as needed
-uv pip install "tuft[dev,backend,persistence]"
+uv pip install "tuft[dev,backend,persistence,otel]"
 ```
 
 ### Run the server
@@ -358,6 +359,34 @@ persistence:
   mode: file_redis
   file_path: "~/.cache/tuft/file_redis.json"
   namespace: "tuft"
+```
+
+## Observability (OpenTelemetry)
+
+TuFT supports optional OpenTelemetry integration for distributed tracing, metrics, and logging.
+This allows you to monitor your TuFT server using observability tools like SigNoz, Jaeger, or Grafana.
+
+### Configuration
+
+Add the following `telemetry` section to your server configuration file (the same YAML file used for model configuration, e.g., `models.yaml`):
+
+```yaml
+telemetry:
+  enabled: true
+  service_name: tuft
+  otlp_endpoint: http://localhost:4317  # Your OTLP collector endpoint
+  resource_attributes: {}
+    # example:
+    # deployment.environment: production
+    # service.version: 1.0.0
+    # service.namespace: my-namespace
+```
+
+Alternatively, use environment variables:
+
+```bash
+export TUFT_OTLP_ENDPOINT=http://localhost:4317
+export TUFT_OTEL_DEBUG=1  # Enable console exporter for debugging
 ```
 
 ## Architecture

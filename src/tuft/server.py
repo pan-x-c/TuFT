@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from contextlib import asynccontextmanager
 from datetime import timezone
 from functools import partial
@@ -10,6 +11,7 @@ from typing import Any, Callable
 from fastapi import Depends, FastAPI, HTTPException, Query, Request, status
 from fastapi.responses import Response
 from fastapi.security import APIKeyHeader
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from pydantic import BaseModel
 from tinker import types
 
@@ -18,7 +20,10 @@ from .config import AppConfig
 from .exceptions import TuFTException
 from .persistence import get_redis_store
 from .state import ServerState
+from .telemetry import shutdown_telemetry
 
+
+logger = logging.getLogger(__name__)
 
 api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
 
@@ -64,17 +69,26 @@ def _get_state(request: Request) -> ServerState:
     return state
 
 
+def _instrument_fastapi(app: FastAPI) -> None:
+    """Instrument FastAPI app with OpenTelemetry."""
+    FastAPIInstrumentor.instrument_app(app)
+    logger.debug("FastAPI instrumentation enabled")
+
+
 def create_root_app(config: AppConfig | None = None) -> FastAPI:
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         try:
             await app.state.server_state.async_init()
+            logger.info("Server initialized successfully")
             yield
         finally:
+            logger.info("Server shutting down")
             await app.state.server_state.future_store.shutdown()
             store = get_redis_store()
             if store.is_enabled:
                 store.close()
+            shutdown_telemetry()
 
     def require_user_dependency(route):
         if not any(dep.dependency == _get_user for dep in getattr(route, "dependencies", [])):
@@ -92,6 +106,10 @@ def create_root_app(config: AppConfig | None = None) -> FastAPI:
         lifespan=lifespan,
     )
     app.state.server_state = ServerState(resolved_config)
+
+    # Instrument FastAPI with OpenTelemetry if enabled
+    if resolved_config.telemetry.enabled:
+        _instrument_fastapi(app)
 
     @app.get("/api/v1/healthz", response_model=types.HealthResponse)
     async def healthz() -> types.HealthResponse:

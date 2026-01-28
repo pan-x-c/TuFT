@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 
 import typer
@@ -9,6 +10,8 @@ import uvicorn
 
 from .config import AppConfig, load_yaml_config
 from .server import create_root_app
+from .telemetry import init_telemetry
+from .telemetry.metrics import ResourceMetricsCollector
 
 
 app = typer.Typer(help="TuFT - Tenant-unified Fine-Tuning Server.")
@@ -42,6 +45,20 @@ def _build_config(
     return config
 
 
+def _init_telemetry(config: AppConfig, log_level: str) -> None:
+    """Initialize OpenTelemetry if enabled."""
+    # Configure root logger level to ensure logs flow to OTel
+    numeric_level = getattr(logging, log_level.upper(), logging.INFO)
+
+    if not config.telemetry.enabled:
+        logging.basicConfig(level=numeric_level)
+        return
+
+    init_telemetry(config.telemetry)
+    # Start resource metrics collection
+    ResourceMetricsCollector.start(str(config.checkpoint_dir))
+
+
 @app.command()
 def launch(
     host: str = _HOST_OPTION,
@@ -53,6 +70,9 @@ def launch(
 ) -> None:
     """Launch the TuFT server."""
     config = _build_config(model_config, checkpoint_dir)
+    # Initialize telemetry before starting the server
+    _init_telemetry(config, log_level)
+    logging.getLogger("tuft").info("Server starting on %s:%s", host, port)
     uvicorn.run(
         create_root_app(config),
         host=host,

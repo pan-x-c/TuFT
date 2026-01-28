@@ -18,6 +18,7 @@ from __future__ import annotations
 import logging
 import os
 import threading
+import time
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
@@ -27,6 +28,21 @@ from pydantic import BaseModel
 
 
 logger = logging.getLogger(__name__)
+
+
+def _get_tracer():
+    """Lazy import tracer to avoid circular imports."""
+    from tuft.telemetry.tracing import get_tracer
+
+    return get_tracer("tuft.redis_store")
+
+
+def _get_metrics():
+    """Lazy import metrics to avoid circular imports."""
+    from tuft.telemetry.metrics import get_metrics
+
+    return get_metrics()
+
 
 T = TypeVar("T", bound=BaseModel)
 
@@ -151,10 +167,12 @@ class RedisStore:
                     self._close_connections()
 
                     if self._config.mode in (PersistenceMode.REDIS_URL, PersistenceMode.FILE_REDIS):
+                        logger.info("Redis connection begin")
                         self._redis = self._create_redis_client()
 
                     if self._redis is not None:
                         self._pid = current_pid
+                        logger.info("Redis connection established")
 
         return self._redis
 
@@ -207,32 +225,78 @@ class RedisStore:
         redis = self._get_redis()
         if redis is None:
             return False
+
+        start_time = time.perf_counter()
+        tracer = _get_tracer()
+
         try:
-            if ttl_seconds is not None:
-                redis.setex(key, ttl_seconds, value)
-            else:
-                redis.set(key, value)
+            with tracer.start_as_current_span("redis.SET") as span:
+                span.set_attribute("db.system", "redis")
+                span.set_attribute("db.operation", "SET")
+                if ttl_seconds is not None:
+                    redis.setex(key, ttl_seconds, value)
+                else:
+                    redis.set(key, value)
+
+            # Record metrics
+            duration = time.perf_counter() - start_time
+            metrics = _get_metrics()
+            metrics.redis_operation_duration.record(duration, {"operation": "SET"})
+            if duration > 0.1:
+                logger.warning("Redis operation slow: SET (%.3fs)", duration)
+
             return True
         except Exception:
             logger.exception("Failed to set key %s in Redis", key)
+            logger.error("Redis connection failed")
             return False
 
     def get(self, key: str) -> str | None:
         redis = self._get_redis()
         if redis is None:
             return None
+
+        start_time = time.perf_counter()
+        tracer = _get_tracer()
+
         try:
-            return redis.get(key)
+            with tracer.start_as_current_span("redis.GET") as span:
+                span.set_attribute("db.system", "redis")
+                span.set_attribute("db.operation", "GET")
+                result = redis.get(key)
+
+            # Record metrics
+            duration = time.perf_counter() - start_time
+            metrics = _get_metrics()
+            metrics.redis_operation_duration.record(duration, {"operation": "GET"})
+            if duration > 0.1:
+                logger.warning("Redis operation slow: GET (%.3fs)", duration)
+
+            return result
         except Exception:
             logger.exception("Failed to get key %s from Redis", key)
+            logger.error("Redis connection failed")
             return None
 
     def delete(self, key: str) -> bool:
         redis = self._get_redis()
         if redis is None:
             return False
+
+        start_time = time.perf_counter()
+        tracer = _get_tracer()
+
         try:
-            redis.delete(key)
+            with tracer.start_as_current_span("redis.DEL") as span:
+                span.set_attribute("db.system", "redis")
+                span.set_attribute("db.operation", "DEL")
+                redis.delete(key)
+
+            # Record metrics
+            duration = time.perf_counter() - start_time
+            metrics = _get_metrics()
+            metrics.redis_operation_duration.record(duration, {"operation": "DEL"})
+
             return True
         except Exception:
             logger.exception("Failed to delete key %s from Redis", key)
@@ -243,8 +307,22 @@ class RedisStore:
         redis = self._get_redis()
         if redis is None:
             return []
+
+        start_time = time.perf_counter()
+        tracer = _get_tracer()
+
         try:
-            return list(redis.scan_iter(match=pattern))
+            with tracer.start_as_current_span("redis.SCAN") as span:
+                span.set_attribute("db.system", "redis")
+                span.set_attribute("db.operation", "SCAN")
+                result = list(redis.scan_iter(match=pattern))
+
+            # Record metrics
+            duration = time.perf_counter() - start_time
+            metrics = _get_metrics()
+            metrics.redis_operation_duration.record(duration, {"operation": "SCAN"})
+
+            return result
         except Exception:
             logger.exception("Failed to scan keys with pattern %s from Redis", pattern)
             return []
