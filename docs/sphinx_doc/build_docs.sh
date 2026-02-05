@@ -9,7 +9,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 SRC_EN="source"
 SRC_ZH="source_zh"
-OUT_ROOT="${ROOT_DIR}/build/html"
+OUT_ROOT="${ROOT_DIR}/docs/sphinx_doc/build/html"
 OUT_EN="${OUT_ROOT}/en"
 OUT_ZH="${OUT_ROOT}/zh"
 SWITCHER_JSON="${ROOT_DIR}/docs/sphinx_doc/switcher.json"
