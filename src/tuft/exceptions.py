@@ -6,9 +6,17 @@ from typing import Any
 class TuFTException(Exception):
     """Base exception for TuFT errors."""
 
-    def __init__(self, detail: str = ""):
+    def __init__(self, status_code: int, detail: str = ""):
         super().__init__(detail)
+        self.status_code = status_code
         self.detail = detail
+
+
+class ServerException(TuFTException):
+    """An general server side exception."""
+
+    def __init__(self, detail: str):
+        super().__init__(500, "Server error: " + detail)
 
 
 class ModelException(TuFTException):
@@ -40,7 +48,7 @@ class UnknownModelException(ModelException):
 
     def __init__(self, model_name: str | None):
         detail = f"Unknown model: {model_name}"
-        super().__init__(detail)
+        super().__init__(404, detail)
         self.model_name = model_name
 
 
@@ -49,7 +57,7 @@ class CheckpointNotFoundException(CheckpointException):
 
     def __init__(self, checkpoint_id: str):
         detail = f"Checkpoint {checkpoint_id} not found."
-        super().__init__(detail)
+        super().__init__(404, detail)
         self.checkpoint_id = checkpoint_id
 
 
@@ -58,7 +66,7 @@ class CheckpointAccessDeniedException(CheckpointException):
 
     def __init__(self, checkpoint_id: str):
         detail = f"Access to checkpoint {checkpoint_id} is denied."
-        super().__init__(detail)
+        super().__init__(403, detail)
         self.checkpoint_id = checkpoint_id
 
 
@@ -67,7 +75,7 @@ class CheckpointMetadataReadException(CheckpointException):
 
     def __init__(self, checkpoint_id: str):
         detail = f"Failed to read metadata for checkpoint {checkpoint_id}."
-        super().__init__(detail)
+        super().__init__(404, detail)
         self.checkpoint_id = checkpoint_id
 
 
@@ -76,7 +84,7 @@ class SequenceConflictException(FutureException):
 
     def __init__(self, expected: int, got: int):
         detail = f"Sequence conflict: expected {expected}, got {got}."
-        super().__init__(detail)
+        super().__init__(409, detail)
         self.expected = expected
         self.got = got
 
@@ -86,7 +94,7 @@ class SequenceTimeoutException(FutureException):
 
     def __init__(self, expected_sequence_id: int):
         detail = f"Timeout when waiting for sequence ID {expected_sequence_id}."
-        super().__init__(detail)
+        super().__init__(408, detail)
         self.sequence_id = expected_sequence_id
 
 
@@ -95,7 +103,7 @@ class MissingSequenceIDException(FutureException):
 
     def __init__(self):
         detail = "Missing sequence ID in the request."
-        super().__init__(detail)
+        super().__init__(409, detail)
 
 
 class FutureNotFoundException(FutureException):
@@ -103,7 +111,16 @@ class FutureNotFoundException(FutureException):
 
     def __init__(self, request_id: str):
         detail = f"Future with request ID {request_id} not found."
-        super().__init__(detail)
+        super().__init__(404, detail)
+        self.request_id = request_id
+
+
+class FutureCancelledException(FutureException):
+    """Future was cancelled."""
+
+    def __init__(self, request_id: str, reason: str):
+        detail = f"Future with request ID {request_id} was cancelled: {reason}"
+        super().__init__(410, detail)
         self.request_id = request_id
 
 
@@ -112,7 +129,7 @@ class SessionNotFoundException(SessionException):
 
     def __init__(self, session_id: str):
         detail = f"Session {session_id} not found."
-        super().__init__(detail)
+        super().__init__(404, detail)
         self.session_id = session_id
 
 
@@ -123,7 +140,7 @@ class UserMismatchException(AuthenticationException):
 
     def __init__(self):
         detail = "You do not have permission to access this resource."
-        super().__init__(detail)
+        super().__init__(403, detail)
 
 
 class LossFunctionNotFoundException(LossFunctionException):
@@ -131,28 +148,28 @@ class LossFunctionNotFoundException(LossFunctionException):
 
     def __init__(self, loss_function_name: str):
         detail = f"Loss function {loss_function_name} not found."
-        super().__init__(detail)
+        super().__init__(404, detail)
         self.loss_function_name = loss_function_name
 
 
 class LossFunctionMissingInputException(LossFunctionException):
     def __init__(self, missing_input_name: str):
         detail = f"Missing '{missing_input_name}' in loss_fn_inputs."
-        super().__init__(detail)
+        super().__init__(404, detail)
         self.input_name = missing_input_name
 
 
 class LossFunctionInputShapeMismatchException(LossFunctionException):
     def __init__(self, shapes: list):
         detail = f"Input tensors must have the same shape. Got shapes: {shapes}"
-        super().__init__(detail)
+        super().__init__(409, detail)
         self.shapes = shapes
 
 
 class LossFunctionUnknownMetricReductionException(LossFunctionException):
     def __init__(self, reduction_type: str):
         detail = f"Unknown metric reduction type: {reduction_type}"
-        super().__init__(detail)
+        super().__init__(409, detail)
         self.reduction_type = reduction_type
 
 
@@ -201,4 +218,4 @@ class ConfigMismatchError(PersistenceException):
             "     (WARNING: This will delete all persisted sessions, training runs, etc.)\n"
             "  3. Restore the original configuration that matches the stored data"
         )
-        super().__init__(message)
+        super().__init__(409, message)
