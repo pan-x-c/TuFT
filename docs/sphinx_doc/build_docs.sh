@@ -9,7 +9,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 SRC_EN="source"
 SRC_ZH="source_zh"
-OUT_ROOT="build/html"
+OUT_ROOT="${ROOT_DIR}/build/html"
 OUT_EN="${OUT_ROOT}/en"
 OUT_ZH="${OUT_ROOT}/zh"
 SWITCHER_JSON="${ROOT_DIR}/docs/sphinx_doc/switcher.json"
@@ -98,7 +98,7 @@ while read -r VERSION TAG; do
     fi
   fi
   git -C "${ROOT_DIR}" checkout "${TAG}" >/dev/null
-  if [[ ! -d "${SRC_EN}" || ! -d "${SRC_ZH}" ]]; then
+  if [[ ! -d "${ROOT_DIR}/docs/sphinx_doc/${SRC_EN}" || ! -d "${ROOT_DIR}/docs/sphinx_doc/${SRC_ZH}" ]]; then
     echo "[build_docs] Missing docs sources after checkout ${TAG}. Ensure docs/sphinx_doc exists on this ref."
     exit 1
   fi
