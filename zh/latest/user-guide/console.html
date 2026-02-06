@@ -21,9 +21,9 @@
 <meta content="#ffffff" media="(prefers-color-scheme: light)" name="theme-color"/>
 <meta content="#030711" media="(prefers-color-scheme: dark)" name="theme-color"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>安装指南 | TuFT</title>
-<meta content="安装指南 | TuFT" property="og:title"/>
-<meta content="安装指南 | TuFT" name="twitter:title"/>
+<title>控制台 | TuFT</title>
+<meta content="控制台 | TuFT" property="og:title"/>
+<meta content="控制台 | TuFT" name="twitter:title"/>
 <link href="../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css?v=73505e79" rel="stylesheet" type="text/css"/>
 <link href="../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
@@ -32,8 +32,8 @@
 <link href="../_static/logo_wo_text.svg" rel="icon"/>
 <link href="../search.html" rel="search" title="搜索"/>
 <link href="../genindex.html" rel="index" title="索引"/>
-<link href="quickstart.html" rel="next" title="快速开始"/>
-<link href="index.html" rel="prev" title="入门指南"/>
+<link href="../development/index.html" rel="next" title="开发指南"/>
+<link href="telemetry.html" rel="prev" title="可观测性（OpenTelemetry）"/>
 </head>
 <body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
 <div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
@@ -92,17 +92,17 @@
 <div class="relative overflow-hidden md:overflow-auto my-4 md:my-0">
 <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
 <ul class="current">
-<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="index.html">入门指南<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">安装指南</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html">快速开始</a></li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../getting-started/index.html">入门指南<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html">安装指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html">快速开始</a></li>
 </ul>
 </li>
-<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../user-guide/index.html">用户指南<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/chat-sft.html">Chat 监督微调（SFT）</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/countdown-rl.html">Countdown 强化学习（RL）</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/persistence.html">持久化</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/telemetry.html">可观测性（OpenTelemetry）</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/console.html">控制台</a></li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="index.html">用户指南<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="chat-sft.html">Chat 监督微调（SFT）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="countdown-rl.html">Countdown 强化学习（RL）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="persistence.html">持久化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="telemetry.html">可观测性（OpenTelemetry）</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">控制台</a></li>
 </ul>
 </li>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../development/index.html">开发指南<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
@@ -129,136 +129,65 @@
 <path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
 </svg>
 </a>
-<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="index.html">入门指南</a>
-<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">安装指南</span>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="index.html">用户指南</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">控制台</span>
 </nav>
 <div id="content" role="main">
 <section id="id1">
-<h1>安装指南<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
-<p>本指南介绍安装 TuFT 的不同方式。</p>
+<h1>控制台<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p>TuFT 提供了一个仪表盘，供用户查看训练运行和检查点的详细信息，同时内置推理试验场，可直接试用微调后的模型。</p>
 <section id="id2">
-<h2>快速安装<a class="headerlink" href="#id2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'">¶</a></h2>
-<blockquote>
-<div><p><strong>注意</strong>：此脚本支持 Unix 平台。其他平台请参阅下面的手动安装部分。</p>
-</div></blockquote>
-<p>使用单个命令安装 TuFT：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">/bin/bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://raw.githubusercontent.com/agentscope-ai/tuft/main/scripts/install.sh<span class="k">)</span><span class="s2">"</span>
+<h2>环境准备<a class="headerlink" href="#id2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'">¶</a></h2>
+<p><strong>安装 uv</strong></p>
+<p>我们推荐使用 <a class="reference external" href="https://github.com/astral-sh/uv">uv</a> 进行依赖管理。</p>
+<p><strong>激活虚拟环境</strong></p>
+<p>如果您已在 uv 环境中，可跳过此步骤。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.12
+</span><span id="line-2"><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
 </span></code></pre></div>
 </div>
-<p>这将安装带有完整后端支持（GPU 依赖、持久化、flash-attn）的 TuFT，以及捆绑的 Python 环境到 <code class="docutils literal notranslate"><span class="pre">~/.tuft</span></code>。安装后，重启终端并运行：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">tuft
+<p><strong>安装依赖</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>fastapi<span class="w"> </span>gradio<span class="w"> </span>tinker<span class="w"> </span>pytz<span class="w"> </span>requests
 </span></code></pre></div>
 </div>
 </section>
 <section id="id3">
-<h2>从源代码安装<a class="headerlink" href="#id3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'">¶</a></h2>
-<p>我们推荐使用 <a class="reference external" href="https://github.com/astral-sh/uv">uv</a> 进行依赖管理。</p>
-<ol class="arabic">
-<li><p>克隆仓库：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">git<span class="w"> </span>clone<span class="w"> </span>https://github.com/agentscope-ai/TuFT
+<h2>快速开始<a class="headerlink" href="#id3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'">¶</a></h2>
+<p>启动 TuFT 服务器后，运行以下命令启动用户控制台：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--server-url</span></code>：TuFT 服务器的 URL</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--gui-port</span></code>：用户控制台的端口</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--backend-port</span></code>：控制台后端的端口</p></li>
+</ul>
+<p>推理标签页需要控制台服务器从 Hugging Face 加载 tokenizer。如果无法访问 Hugging Face，请设置镜像以启用推理标签页：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">export</span><span class="w"> </span><span class="nv">HF_ENDPOINT</span><span class="o">=</span>https://hf-mirror.com
 </span></code></pre></div>
 </div>
-</li>
-<li><p>创建虚拟环境：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">cd</span><span class="w"> </span>TuFT
-</span><span id="line-2">uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.12
+<p>然后启动控制台服务器和控制台 GUI：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">cd</span><span class="w"> </span>src/tuft/console/
+</span><span id="line-2">bash<span class="w"> </span>scripts/start_user_console.sh<span class="w"> </span>--server-url<span class="w"> </span>http://localhost:10610<span class="w"> </span>--gui-port<span class="w"> </span><span class="m">10613</span><span class="w"> </span>--backend-port<span class="w"> </span><span class="m">10713</span>
 </span></code></pre></div>
 </div>
-</li>
-<li><p>激活环境：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
-</span></code></pre></div>
-</div>
-</li>
-<li><p>安装依赖：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 安装最小依赖（非开发安装）</span>
-</span><span id="line-2">uv<span class="w"> </span>sync
-</span><span id="line-3">
-</span><span id="line-4"><span class="c1"># 如果需要开发或运行测试，安装开发依赖</span>
-</span><span id="line-5">uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>dev
-</span><span id="line-6">
-</span><span id="line-7"><span class="c1"># 如果要运行完整功能集（如模型服务、持久化），</span>
-</span><span id="line-8"><span class="c1"># 请安装所有依赖</span>
-</span><span id="line-9">uv<span class="w"> </span>sync<span class="w"> </span>--all-extras
-</span><span id="line-10">python<span class="w"> </span>scripts/install_flash_attn.py
-</span><span id="line-11"><span class="c1"># 如果 flash-attn 安装遇到问题，可以尝试手动安装：</span>
-</span><span id="line-12"><span class="c1"># uv pip install flash-attn --no-build-isolation</span>
-</span></code></pre></div>
-</div>
-</li>
-</ol>
-</section>
-<section id="pypi">
-<h2>通过 PyPI 安装<a class="headerlink" href="#pypi" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#pypi'">¶</a></h2>
-<p>您也可以直接从 PyPI 安装 TuFT：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>tuft
-</span><span id="line-2">
-</span><span id="line-3"><span class="c1"># 根据需要安装可选依赖</span>
-</span><span id="line-4">uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"tuft[dev,backend,persistence]"</span>
-</span></code></pre></div>
-</div>
+<p>您可以通过 <a class="reference external" href="http://0.0.0.0:10613">http://0.0.0.0:10613</a> 访问用户控制台。</p>
 </section>
 <section id="docker">
-<h2>使用预构建的 Docker 镜像<a class="headerlink" href="#docker" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#docker'">¶</a></h2>
-<p>如果本地安装遇到问题或想快速开始，可以使用预构建的 Docker 镜像。</p>
-<ol class="arabic">
-<li><p>从 GitHub Container Registry 拉取最新镜像：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/agentscope-ai/tuft:latest
+<h2>使用 Docker 部署<a class="headerlink" href="#docker" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#docker'">¶</a></h2>
+<p>TuFT 还提供了 Dockerfile 用于快速部署。</p>
+<p>TuFT 在 Dockerfile 中将服务器 URL 设置为 <code class="docutils literal notranslate"><span class="pre">http://host.docker.internal:10610</span></code>，这要求 TuFT 服务器在同一主机上运行。</p>
+<p>我们还在 Dockerfile 中提供了网络不可用场景的相关建议，如有需要请启用。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">cd</span><span class="w"> </span>src/tuft/
+</span><span id="line-2">docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>tuft/user-console<span class="w"> </span>-f<span class="w"> </span>console/docker/Dockerfile<span class="w"> </span>.
+</span><span id="line-3">docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>user-console-app<span class="w"> </span>-p<span class="w"> </span><span class="m">10613</span>:10613<span class="w"> </span>--add-host<span class="o">=</span>host.docker.internal:host-gateway<span class="w"> </span>tuft/user-console
 </span></code></pre></div>
 </div>
-</li>
-<li><p>运行 Docker 容器并在端口 10610 启动 TuFT 服务器：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span><span class="se">\</span>
-</span><span id="line-2"><span class="w">    </span>--gpus<span class="w"> </span>all<span class="w"> </span><span class="se">\</span>
-</span><span id="line-3"><span class="w">    </span>--shm-size<span class="o">=</span><span class="s2">"128g"</span><span class="w"> </span><span class="se">\</span>
-</span><span id="line-4"><span class="w">    </span>--rm<span class="w"> </span><span class="se">\</span>
-</span><span id="line-5"><span class="w">    </span>-p<span class="w"> </span><span class="m">10610</span>:10610<span class="w"> </span><span class="se">\</span>
-</span><span id="line-6"><span class="w">    </span>-v<span class="w"> </span>&lt;host_dir&gt;:/data<span class="w"> </span><span class="se">\</span>
-</span><span id="line-7"><span class="w">    </span>ghcr.io/agentscope-ai/tuft:latest<span class="w"> </span><span class="se">\</span>
-</span><span id="line-8"><span class="w">    </span>tuft<span class="w"> </span>launch<span class="w"> </span>--port<span class="w"> </span><span class="m">10610</span><span class="w"> </span>--config<span class="w"> </span>/data/tuft_config.yaml
-</span></code></pre></div>
-</div>
-<p>请将 <code class="docutils literal notranslate"><span class="pre">&lt;host_dir&gt;</span></code> 替换为您主机上用于存储模型检查点和其他数据的目录。</p>
-<p>假设您的主机上有以下结构：</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">&lt;host_dir&gt;/
-</span><span id="line-2">    ├── checkpoints/
-</span><span id="line-3">    ├── Qwen3-4B/
-</span><span id="line-4">    ├── Qwen3-8B/
-</span><span id="line-5">    └── tuft_config.yaml
-</span></code></pre></div>
-</div>
-</li>
-</ol>
-</section>
-<section id="id4">
-<h2>运行服务器<a class="headerlink" href="#id4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'">¶</a></h2>
-<p>CLI 启动一个 FastAPI 服务器：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">tuft<span class="w"> </span>launch<span class="w"> </span>--port<span class="w"> </span><span class="m">10610</span><span class="w"> </span>--config<span class="w"> </span>/path/to/tuft_config.yaml
-</span></code></pre></div>
-</div>
-<p>配置文件 <code class="docutils literal notranslate"><span class="pre">tuft_config.yaml</span></code> 指定服务器设置，包括可用的基础模型、认证、持久化和遥测。以下是一个最小示例：</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nt">supported_models</span><span class="p">:</span>
-</span><span id="line-2"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">model_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Qwen/Qwen3-4B</span>
-</span><span id="line-3"><span class="w">    </span><span class="nt">model_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Qwen/Qwen3-4B</span>
-</span><span id="line-4"><span class="w">    </span><span class="nt">max_model_len</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32768</span>
-</span><span id="line-5"><span class="w">    </span><span class="nt">tensor_parallel_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-</span><span id="line-6"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">model_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Qwen/Qwen3-8B</span>
-</span><span id="line-7"><span class="w">    </span><span class="nt">model_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Qwen/Qwen3-8B</span>
-</span><span id="line-8"><span class="w">    </span><span class="nt">max_model_len</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32768</span>
-</span><span id="line-9"><span class="w">    </span><span class="nt">tensor_parallel_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-</span></code></pre></div>
-</div>
-<p>请参阅仓库中的 <code class="docutils literal notranslate"><span class="pre">config/tuft_config.example.yaml</span></code> 获取包含所有可用选项的完整示例配置。</p>
 </section>
 </section>
 </div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
 <div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] h-full overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
 <ul>
-<li><a :data-current="activeSection === '#id2'" class="reference internal" href="#id2">快速安装</a></li>
-<li><a :data-current="activeSection === '#id3'" class="reference internal" href="#id3">从源代码安装</a></li>
-<li><a :data-current="activeSection === '#pypi'" class="reference internal" href="#pypi">通过 PyPI 安装</a></li>
-<li><a :data-current="activeSection === '#docker'" class="reference internal" href="#docker">使用预构建的 Docker 镜像</a></li>
-<li><a :data-current="activeSection === '#id4'" class="reference internal" href="#id4">运行服务器</a></li>
+<li><a :data-current="activeSection === '#id2'" class="reference internal" href="#id2">环境准备</a></li>
+<li><a :data-current="activeSection === '#id3'" class="reference internal" href="#id3">快速开始</a></li>
+<li><a :data-current="activeSection === '#docker'" class="reference internal" href="#docker">使用 Docker 部署</a></li>
 </ul>
 </div>
 </aside>

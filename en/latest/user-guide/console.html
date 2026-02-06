@@ -21,9 +21,9 @@
 <meta content="#ffffff" media="(prefers-color-scheme: light)" name="theme-color"/>
 <meta content="#030711" media="(prefers-color-scheme: dark)" name="theme-color"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Installation | TuFT</title>
-<meta content="Installation | TuFT" property="og:title"/>
-<meta content="Installation | TuFT" name="twitter:title"/>
+<title>Console | TuFT</title>
+<meta content="Console | TuFT" property="og:title"/>
+<meta content="Console | TuFT" name="twitter:title"/>
 <link href="../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css?v=73505e79" rel="stylesheet" type="text/css"/>
 <link href="../_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
@@ -32,8 +32,8 @@
 <link href="../_static/logo_wo_text.svg" rel="icon"/>
 <link href="../search.html" rel="search" title="Search"/>
 <link href="../genindex.html" rel="index" title="Index"/>
-<link href="quickstart.html" rel="next" title="Quickstart"/>
-<link href="index.html" rel="prev" title="Getting Started"/>
+<link href="../development/index.html" rel="next" title="Development"/>
+<link href="telemetry.html" rel="prev" title="Observability (OpenTelemetry)"/>
 </head>
 <body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
 <div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
@@ -92,17 +92,17 @@
 <div class="relative overflow-hidden md:overflow-auto my-4 md:my-0">
 <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
 <ul class="current">
-<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="index.html">Getting Started<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../getting-started/index.html">Getting Started<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html">Quickstart</a></li>
 </ul>
 </li>
-<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../user-guide/index.html">User Guide<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/chat-sft.html">Chat Supervised Fine-Tuning (SFT)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/countdown-rl.html">Countdown Reinforcement Learning (RL)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/persistence.html">Persistence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/telemetry.html">Observability (OpenTelemetry)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/console.html">Console</a></li>
+<li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="index.html">User Guide<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul class="current" x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="chat-sft.html">Chat Supervised Fine-Tuning (SFT)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="countdown-rl.html">Countdown Reinforcement Learning (RL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="persistence.html">Persistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="telemetry.html">Observability (OpenTelemetry)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Console</a></li>
 </ul>
 </li>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../development/index.html">Development<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
@@ -129,136 +129,65 @@
 <path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
 </svg>
 </a>
-<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="index.html">Getting Started</a>
-<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Installation</span>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="index.html">User Guide</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Console</span>
 </nav>
 <div id="content" role="main">
-<section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
-<p>This guide covers different ways to install TuFT.</p>
-<section id="quick-install">
-<h2>Quick Install<a class="headerlink" href="#quick-install" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#quick-install'">¶</a></h2>
-<blockquote>
-<div><p><strong>Note</strong>: This script supports unix platforms. For other platforms, see the manual installation sections below.</p>
-</div></blockquote>
-<p>Install TuFT with a single command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">/bin/bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://raw.githubusercontent.com/agentscope-ai/tuft/main/scripts/install.sh<span class="k">)</span><span class="s2">"</span>
-</span></code></pre></div>
-</div>
-<p>This installs TuFT with full backend support (GPU dependencies, persistence, flash-attn) and a bundled Python environment to <code class="docutils literal notranslate"><span class="pre">~/.tuft</span></code>. After installation, restart your terminal and run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">tuft
-</span></code></pre></div>
-</div>
-</section>
-<section id="install-from-source-code">
-<h2>Install from Source Code<a class="headerlink" href="#install-from-source-code" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#install-from-source-code'">¶</a></h2>
+<section id="console">
+<h1>Console<a class="headerlink" href="#console" title="Link to this heading">¶</a></h1>
+<p>TuFT provides a dashboard for users to view the details of their training runs and checkpoints. It also includes a sampling playground for trying out fine-tuned models.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#prerequisites'">¶</a></h2>
+<p><strong>Install uv</strong></p>
 <p>We recommend using <a class="reference external" href="https://github.com/astral-sh/uv">uv</a> for dependency management.</p>
-<ol class="arabic">
-<li><p>Clone the repository:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">git<span class="w"> </span>clone<span class="w"> </span>https://github.com/agentscope-ai/TuFT
+<p><strong>Activate virtual environment</strong></p>
+<p>If you are already in a uv environment, you can skip this step.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.12
+</span><span id="line-2"><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
 </span></code></pre></div>
 </div>
-</li>
-<li><p>Create a virtual environment:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">cd</span><span class="w"> </span>TuFT
-</span><span id="line-2">uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.12
-</span></code></pre></div>
-</div>
-</li>
-<li><p>Activate environment:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">source</span><span class="w"> </span>.venv/bin/activate
-</span></code></pre></div>
-</div>
-</li>
-<li><p>Install dependencies:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># Install minimal dependencies for non-development installs</span>
-</span><span id="line-2">uv<span class="w"> </span>sync
-</span><span id="line-3">
-</span><span id="line-4"><span class="c1"># If you need to develop or run tests, install dev dependencies</span>
-</span><span id="line-5">uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>dev
-</span><span id="line-6">
-</span><span id="line-7"><span class="c1"># If you want to run the full feature set (e.g., model serving, persistence),</span>
-</span><span id="line-8"><span class="c1"># please install all dependencies</span>
-</span><span id="line-9">uv<span class="w"> </span>sync<span class="w"> </span>--all-extras
-</span><span id="line-10">python<span class="w"> </span>scripts/install_flash_attn.py
-</span><span id="line-11"><span class="c1"># If you face issues with flash-attn installation, you can try installing it manually:</span>
-</span><span id="line-12"><span class="c1"># uv pip install flash-attn --no-build-isolation</span>
-</span></code></pre></div>
-</div>
-</li>
-</ol>
-</section>
-<section id="install-via-pypi">
-<h2>Install via PyPI<a class="headerlink" href="#install-via-pypi" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#install-via-pypi'">¶</a></h2>
-<p>You can also install TuFT directly from PyPI:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>tuft
-</span><span id="line-2">
-</span><span id="line-3"><span class="c1"># Install optional dependencies as needed</span>
-</span><span id="line-4">uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"tuft[dev,backend,persistence]"</span>
+<p><strong>Install the dependencies</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>fastapi<span class="w"> </span>gradio<span class="w"> </span>tinker<span class="w"> </span>pytz<span class="w"> </span>requests
 </span></code></pre></div>
 </div>
 </section>
-<section id="use-the-pre-built-docker-image">
-<h2>Use the Pre-built Docker Image<a class="headerlink" href="#use-the-pre-built-docker-image" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#use-the-pre-built-docker-image'">¶</a></h2>
-<p>If you face issues with local installation or want to get started quickly, you can use the pre-built Docker image.</p>
-<ol class="arabic">
-<li><p>Pull the latest image from GitHub Container Registry:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">docker<span class="w"> </span>pull<span class="w"> </span>ghcr.io/agentscope-ai/tuft:latest
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#quick-start'">¶</a></h2>
+<p>After you start the TuFT server, run the following command to start the user console:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--server-url</span></code>: the URL of the TuFT server</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--gui-port</span></code>: the port of the user console</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--backend-port</span></code>: the port of the console backend</p></li>
+</ul>
+<p>The sampling tab requires the console server to load the tokenizer from Hugging Face. If you cannot access Hugging Face, set up a mirror to enable the sampling tab:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">export</span><span class="w"> </span><span class="nv">HF_ENDPOINT</span><span class="o">=</span>https://hf-mirror.com
 </span></code></pre></div>
 </div>
-</li>
-<li><p>Run the Docker container and start the TuFT server on port 10610:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span><span class="se">\</span>
-</span><span id="line-2"><span class="w">    </span>--gpus<span class="w"> </span>all<span class="w"> </span><span class="se">\</span>
-</span><span id="line-3"><span class="w">    </span>--shm-size<span class="o">=</span><span class="s2">"128g"</span><span class="w"> </span><span class="se">\</span>
-</span><span id="line-4"><span class="w">    </span>--rm<span class="w"> </span><span class="se">\</span>
-</span><span id="line-5"><span class="w">    </span>-p<span class="w"> </span><span class="m">10610</span>:10610<span class="w"> </span><span class="se">\</span>
-</span><span id="line-6"><span class="w">    </span>-v<span class="w"> </span>&lt;host_dir&gt;:/data<span class="w"> </span><span class="se">\</span>
-</span><span id="line-7"><span class="w">    </span>ghcr.io/agentscope-ai/tuft:latest<span class="w"> </span><span class="se">\</span>
-</span><span id="line-8"><span class="w">    </span>tuft<span class="w"> </span>launch<span class="w"> </span>--port<span class="w"> </span><span class="m">10610</span><span class="w"> </span>--config<span class="w"> </span>/data/tuft_config.yaml
+<p>Then start the console server and the console GUI:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">cd</span><span class="w"> </span>src/tuft/console/
+</span><span id="line-2">bash<span class="w"> </span>scripts/start_user_console.sh<span class="w"> </span>--server-url<span class="w"> </span>http://localhost:10610<span class="w"> </span>--gui-port<span class="w"> </span><span class="m">10613</span><span class="w"> </span>--backend-port<span class="w"> </span><span class="m">10713</span>
 </span></code></pre></div>
 </div>
-<p>Please replace <code class="docutils literal notranslate"><span class="pre">&lt;host_dir&gt;</span></code> with a directory on your host machine where you want to store model checkpoints and other data.</p>
-<p>Suppose you have the following structure on your host machine:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">&lt;host_dir&gt;/
-</span><span id="line-2">    ├── checkpoints/
-</span><span id="line-3">    ├── Qwen3-4B/
-</span><span id="line-4">    ├── Qwen3-8B/
-</span><span id="line-5">    └── tuft_config.yaml
-</span></code></pre></div>
-</div>
-</li>
-</ol>
+<p>You can access the user console at <a class="reference external" href="http://0.0.0.0:10613">http://0.0.0.0:10613</a>.</p>
 </section>
-<section id="run-the-server">
-<h2>Run the Server<a class="headerlink" href="#run-the-server" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#run-the-server'">¶</a></h2>
-<p>The CLI starts a FastAPI server:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">tuft<span class="w"> </span>launch<span class="w"> </span>--port<span class="w"> </span><span class="m">10610</span><span class="w"> </span>--config<span class="w"> </span>/path/to/tuft_config.yaml
+<section id="deploy-with-docker">
+<h2>Deploy with Docker<a class="headerlink" href="#deploy-with-docker" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#deploy-with-docker'">¶</a></h2>
+<p>TuFT also provides a Dockerfile for quick deployment.</p>
+<p>TuFT sets the server URL to <code class="docutils literal notranslate"><span class="pre">http://host.docker.internal:10610</span></code> in the Dockerfile, which requires the TuFT server to be running on the same host.</p>
+<p>We also provide some suggestions in the Dockerfile for scenarios when the network is not available. Enable them if needed.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">cd</span><span class="w"> </span>src/tuft/
+</span><span id="line-2">docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>tuft/user-console<span class="w"> </span>-f<span class="w"> </span>console/docker/Dockerfile<span class="w"> </span>.
+</span><span id="line-3">docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>--name<span class="w"> </span>user-console-app<span class="w"> </span>-p<span class="w"> </span><span class="m">10613</span>:10613<span class="w"> </span>--add-host<span class="o">=</span>host.docker.internal:host-gateway<span class="w"> </span>tuft/user-console
 </span></code></pre></div>
 </div>
-<p>The config file <code class="docutils literal notranslate"><span class="pre">tuft_config.yaml</span></code> specifies server settings including available base models, authentication, persistence, and telemetry. Below is a minimal example:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nt">supported_models</span><span class="p">:</span>
-</span><span id="line-2"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">model_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Qwen/Qwen3-4B</span>
-</span><span id="line-3"><span class="w">    </span><span class="nt">model_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Qwen/Qwen3-4B</span>
-</span><span id="line-4"><span class="w">    </span><span class="nt">max_model_len</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32768</span>
-</span><span id="line-5"><span class="w">    </span><span class="nt">tensor_parallel_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-</span><span id="line-6"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">model_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Qwen/Qwen3-8B</span>
-</span><span id="line-7"><span class="w">    </span><span class="nt">model_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Qwen/Qwen3-8B</span>
-</span><span id="line-8"><span class="w">    </span><span class="nt">max_model_len</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32768</span>
-</span><span id="line-9"><span class="w">    </span><span class="nt">tensor_parallel_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-</span></code></pre></div>
-</div>
-<p>See <code class="docutils literal notranslate"><span class="pre">config/tuft_config.example.yaml</span></code> in the repository for a complete example configuration with all available options.</p>
 </section>
 </section>
 </div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
 <div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] h-full overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
 <ul>
-<li><a :data-current="activeSection === '#quick-install'" class="reference internal" href="#quick-install">Quick Install</a></li>
-<li><a :data-current="activeSection === '#install-from-source-code'" class="reference internal" href="#install-from-source-code">Install from Source Code</a></li>
-<li><a :data-current="activeSection === '#install-via-pypi'" class="reference internal" href="#install-via-pypi">Install via PyPI</a></li>
-<li><a :data-current="activeSection === '#use-the-pre-built-docker-image'" class="reference internal" href="#use-the-pre-built-docker-image">Use the Pre-built Docker Image</a></li>
-<li><a :data-current="activeSection === '#run-the-server'" class="reference internal" href="#run-the-server">Run the Server</a></li>
+<li><a :data-current="activeSection === '#prerequisites'" class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a :data-current="activeSection === '#quick-start'" class="reference internal" href="#quick-start">Quick Start</a></li>
+<li><a :data-current="activeSection === '#deploy-with-docker'" class="reference internal" href="#deploy-with-docker">Deploy with Docker</a></li>
 </ul>
 </div>
 </aside>

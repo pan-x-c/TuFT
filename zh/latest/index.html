@@ -26,14 +26,13 @@
 <meta content="TuFT" name="twitter:title"/>
 <link href="_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="_static/theme.css?v=73505e79" rel="stylesheet" type="text/css"/>
-<link href="_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="_static/sphinx-design.min.css?v=95c83b7e" rel="stylesheet" type="text/css"/>
-<link href="_static/custom.css?v=31585404" rel="stylesheet" type="text/css"/>
+<link href="_static/custom.css?v=ce0bd854" rel="stylesheet" type="text/css"/>
 <link href="_static/awesome-sphinx-design.css?v=c54898a4" rel="stylesheet" type="text/css"/>
 <link href="_static/logo_wo_text.svg" rel="icon"/>
 <link href="search.html" rel="search" title="搜索"/>
 <link href="genindex.html" rel="index" title="索引"/>
-<link href="getting-started/index.html" rel="next" title="快速开始"/>
+<link href="getting-started/index.html" rel="next" title="入门指南"/>
 </head>
 <body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
 <div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
@@ -68,7 +67,7 @@
 <svg fill="currentColor" height="20" viewbox="0 0 16 16" width="20"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" fill-rule="evenodd"></path></svg>
 </div>
 </a>
-<a href="https://discord.gg/wEahC7ZJ" rel="noopener nofollow" title="Visit Discord">
+<a href="https://discord.gg/BCNCaQGxBH" rel="noopener nofollow" title="Visit Discord">
 <div class="inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9">
 <svg fill="currentColor" height="20" viewbox="0 0 16 16" width="20"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248 .195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249 .594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"></path></svg>
 </div>
@@ -92,9 +91,9 @@
 <div class="relative overflow-hidden md:overflow-auto my-4 md:my-0">
 <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
 <ul>
-<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="getting-started/index.html">快速开始<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
-<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html">安装</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html">快速开始示例</a></li>
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="getting-started/index.html">入门指南<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html">安装指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html">快速开始</a></li>
 </ul>
 </li>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="user-guide/index.html">用户指南<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
@@ -102,13 +101,14 @@
 <li class="toctree-l2"><a class="reference internal" href="user-guide/countdown-rl.html">Countdown 强化学习（RL）</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user-guide/persistence.html">持久化</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user-guide/telemetry.html">可观测性（OpenTelemetry）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/console.html">控制台</a></li>
 </ul>
 </li>
-<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="development/index.html">开发<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
+<li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="development/index.html">开发指南<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
 <li class="toctree-l2"><a class="reference internal" href="development/testing.html">测试指南</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="roadmap.html">路线图</a></li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">发展路线图</a></li>
 </ul>
 </nav>
 </div>
@@ -124,10 +124,17 @@
 <div id="content" role="main">
 <section id="tuft">
 <h1 class="sd-d-none">TuFT<a class="headerlink" href="#tuft" title="Link to this heading">¶</a></h1>
-<p class="hero-subtitle"><strong>TuFT (Tenant-unified Fine-Tuning)</strong> 是一个多租户平台，让多位用户通过统一 API 在共享基础设施上微调 LLM。可通过 Tinker SDK 或兼容客户端访问。</p>
+<p class="hero-subtitle"><strong>TuFT (Tenant-unified Fine-Tuning)</strong> 是一个多租户平台，支持多用户通过统一 API 在共享基础设施上微调大语言模型。可通过 Tinker SDK 或兼容客户端接入使用。</p>
 <img alt="TuFT 概览" class="hero-image" src="https://img.alicdn.com/imgextra/i2/O1CN01hkVXFE1uIvSMCvMxM_!!6000000006015-2-tps-2500-1406.png"/>
+<div class="install-command">
+<p class="install-title">快速安装</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">/bin/bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://raw.githubusercontent.com/agentscope-ai/tuft/main/scripts/install.sh<span class="k">)</span><span class="s2">"</span>
+</span></code></pre></div>
+</div>
+<p class="install-more-link">更多安装方式（PyPI、源码、Docker），请参阅<a href="getting-started/installation.html">安装指南</a>。</p>
+</div>
 <div class="quickstart-cta">
-<a class="quickstart-cta-link" href="getting-started/quickstart.html">开始尝试 →</a>
+<a class="quickstart-cta-link" href="getting-started/quickstart.html">快速开始 →</a>
 </div>
 
 </section>
@@ -145,8 +152,6 @@
 <script src="_static/documentation_options.js?v=e0ccff72"></script>
 <script src="_static/doctools.js?v=9bcbadda"></script>
 <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-<script src="_static/clipboard.min.js?v=a7894cd8"></script>
-<script src="_static/copybutton.js?v=f281be69"></script>
 <script defer="defer" src="_static/theme.js?v=582b20c5"></script>
 <script src="_static/translations.js?v=beaddf03"></script>
 <script src="_static/design-tabs.js?v=f930bc37"></script>
