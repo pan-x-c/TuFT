@@ -141,7 +141,7 @@
 <li><p><strong>指标</strong>（请求/工作流 + 资源指标）</p></li>
 <li><p><strong>日志</strong>（Python 日志桥接到 OpenTelemetry 日志管道）</p></li>
 </ul>
-<p>本文档解释<strong>如何启用遥测</strong>以及 <strong>TuFT 如何在内部连接它</strong>（记录什么、关联键以及如何扩展检测）。</p>
+<p>本文档介绍<strong>如何启用 telemetry</strong> 以及 <strong>TuFT 如何使用 telemetry</strong>（记录哪些数据、关联键、以及如何扩展采集）。</p>
 <hr class="docutils"/>
 <section id="id1">
 <h2>目录<a class="headerlink" href="#id1" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id1'">¶</a></h2>
@@ -157,15 +157,16 @@
 </li>
 <li><p><a class="reference internal" href="#id9">关联/共享键</a></p></li>
 <li><p><a class="reference internal" href="#ray-actor">上下文传播（Ray actor）</a></p></li>
-<li><p><a class="reference internal" href="#id11">开发者指南</a></p></li>
-<li><p><a class="reference internal" href="#id14">推荐的收集器配置</a></p></li>
-<li><p><a class="reference internal" href="#id15">故障排除</a></p></li>
+<li><p><a class="reference internal" href="#id10">开发者指南</a></p></li>
+<li><p><a class="reference internal" href="#id13">推荐的收集器配置</a></p></li>
+<li><p><a class="reference internal" href="#id14">故障排除</a></p></li>
+<li><p><a class="reference internal" href="#id15">端到端示例</a></p></li>
 </ul>
 </section>
 <hr class="docutils"/>
 <section id="id2">
 <h2>快速开始<a class="headerlink" href="#id2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'">¶</a></h2>
-<p>在 <code class="docutils literal notranslate"><span class="pre">tuft_config.yaml</span></code> 中启用遥测：</p>
+<p>在 <code class="docutils literal notranslate"><span class="pre">tuft_config.yaml</span></code> 中启用 telemetry：</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nt">telemetry</span><span class="p">:</span>
 </span><span id="line-2"><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </span><span id="line-3"><span class="w">  </span><span class="nt">service_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tuft</span>
@@ -176,7 +177,7 @@
 </span></code></pre></div>
 </div>
 <blockquote>
-<div><p><strong>注意</strong>：<code class="docutils literal notranslate"><span class="pre">resource_attributes</span></code> 允许您将自定义元数据附加到所有遥测数据。常见属性包括：</p>
+<div><p><strong>注意</strong>：<code class="docutils literal notranslate"><span class="pre">resource_attributes</span></code> 允许您将自定义元数据附加到所有 telemetry 数据。常见属性包括：</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">deployment.environment</span></code>：例如 <code class="docutils literal notranslate"><span class="pre">production</span></code>、<code class="docutils literal notranslate"><span class="pre">staging</span></code>、<code class="docutils literal notranslate"><span class="pre">development</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">service.version</span></code>：您的应用程序版本</p></li>
@@ -227,7 +228,7 @@
 <h3>追踪<a class="headerlink" href="#id4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'">¶</a></h3>
 <p>TuFT 在多个层级生成 span：</p>
 <ul class="simple">
-<li><p><strong>HTTP 服务器 span</strong>：启用遥测时检测 FastAPI。</p></li>
+<li><p><strong>HTTP 服务器 span</strong>：启用 telemetry 后自动检测 FastAPI。</p></li>
 <li><p><strong>控制器 span</strong>：训练/推理操作创建如下 span：</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">training_controller.create_model</span></code></p></li>
@@ -297,7 +298,7 @@
 </section>
 <section id="id7">
 <h4>2) 资源指标（可观察的仪表）<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h4>
-<p>启用遥测时，TuFT 启动后台资源收集器，导出可观察的仪表如：</p>
+<p>启用 telemetry 后，TuFT 会启动后台资源采集器，导出以下 observable gauge：</p>
 <ul class="simple">
 <li><p>CPU：</p>
 <ul>
@@ -374,21 +375,7 @@
 </ul>
 </li>
 </ul>
-<section id="id10">
-<h3>实践中如何使用这些键<a class="headerlink" href="#id10" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id10'">¶</a></h3>
-<ul class="simple">
-<li><p>给定客户端的 <strong>session_id</strong>，按 <code class="docutils literal notranslate"><span class="pre">tuft.session_id</span> <span class="pre">=</span> <span class="pre">&lt;id&gt;</span></code> 过滤追踪。</p></li>
-<li><p>给定 <strong>training_run_id</strong>，按 <code class="docutils literal notranslate"><span class="pre">tuft.training_run_id</span> <span class="pre">=</span> <span class="pre">&lt;id&gt;</span></code> 过滤。</p></li>
-<li><p>给定 <strong>sampling_session_id</strong>，按 <code class="docutils literal notranslate"><span class="pre">tuft.sampling_session_id</span> <span class="pre">=</span> <span class="pre">&lt;id&gt;</span></code> 过滤。</p></li>
-<li><p>给定异步 <strong>request_id</strong>（future），按 <code class="docutils literal notranslate"><span class="pre">tuft.request_id</span> <span class="pre">=</span> <span class="pre">&lt;id&gt;</span></code> 过滤。</p></li>
-</ul>
-<p>这是追踪跨以下活动的推荐方式：</p>
-<ul class="simple">
-<li><p>会话 → 训练客户端 → 训练控制器 → 后端执行</p></li>
-<li><p>会话 → 推理客户端 → 推理控制器 → 后端执行</p></li>
-<li><p>API 调用 → future 入队 → future 执行 → 结果检索</p></li>
-</ul>
-</section>
+<p>关于如何在可观测性后端中使用这些键进行过滤的实际示例，请参阅<a class="reference internal" href="#id15">端到端示例</a>。</p>
 </section>
 <hr class="docutils"/>
 <section id="ray-actor">
@@ -401,8 +388,8 @@
 <p>这提供了跨进程边界的端到端追踪，即使 Ray 调度更改了执行位置。</p>
 </section>
 <hr class="docutils"/>
-<section id="id11">
-<h2>开发者指南<a class="headerlink" href="#id11" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id11'">¶</a></h2>
+<section id="id10">
+<h2>开发者指南<a class="headerlink" href="#id10" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id10'">¶</a></h2>
 <section id="span">
 <h3>创建 span<a class="headerlink" href="#span" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#span'">¶</a></h3>
 <p>使用 <code class="docutils literal notranslate"><span class="pre">get_tracer()</span></code> 和标准 OpenTelemetry span API：</p>
@@ -416,8 +403,8 @@
 </span></code></pre></div>
 </div>
 </section>
-<section id="id12">
-<h3>记录指标<a class="headerlink" href="#id12" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id12'">¶</a></h3>
+<section id="id11">
+<h3>记录指标<a class="headerlink" href="#id11" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id11'">¶</a></h3>
 <p>使用集中的指标注册表：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">from</span><span class="w"> </span><span class="nn">tuft.telemetry.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_metrics</span>
 </span><span id="line-2">
@@ -427,8 +414,8 @@
 </span></code></pre></div>
 </div>
 </section>
-<section id="id13">
-<h3>选择属性<a class="headerlink" href="#id13" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id13'">¶</a></h3>
+<section id="id12">
+<h3>选择属性<a class="headerlink" href="#id12" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id12'">¶</a></h3>
 <p>优先：</p>
 <ul class="simple">
 <li><p>稳定标识符（<code class="docutils literal notranslate"><span class="pre">session_id</span></code>、<code class="docutils literal notranslate"><span class="pre">training_run_id</span></code>、<code class="docutils literal notranslate"><span class="pre">sampling_session_id</span></code>、<code class="docutils literal notranslate"><span class="pre">request_id</span></code>）</p></li>
@@ -438,8 +425,8 @@
 </section>
 </section>
 <hr class="docutils"/>
-<section id="id14">
-<h2>推荐的收集器配置<a class="headerlink" href="#id14" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id14'">¶</a></h2>
+<section id="id13">
+<h2>推荐的收集器配置<a class="headerlink" href="#id13" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id13'">¶</a></h2>
 <p>TuFT 默认通过 <strong>gRPC</strong> 导出 OTLP。我们推荐运行一个 OpenTelemetry Collector（或提供 OTLP 接收器的可观测性后端）监听配置的 <code class="docutils literal notranslate"><span class="pre">otlp_endpoint</span></code>（通常是 <code class="docutils literal notranslate"><span class="pre">4317</span></code>）。</p>
 <p>至少确保：</p>
 <ul class="simple">
@@ -453,10 +440,10 @@
 </ul>
 </section>
 <hr class="docutils"/>
-<section id="id15">
-<h2>故障排除<a class="headerlink" href="#id15" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id15'">¶</a></h2>
-<section id="id16">
-<h3>没有遥测显示<a class="headerlink" href="#id16" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id16'">¶</a></h3>
+<section id="id14">
+<h2>故障排除<a class="headerlink" href="#id14" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id14'">¶</a></h2>
+<section id="telemetry">
+<h3>Telemetry 数据未上报<a class="headerlink" href="#telemetry" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#telemetry'">¶</a></h3>
 <ul class="simple">
 <li><p>确保 <code class="docutils literal notranslate"><span class="pre">telemetry.enabled:</span> <span class="pre">true</span></code>。</p></li>
 <li><p>确保 OTLP 端点可从 TuFT 服务器进程访问。</p></li>
@@ -471,6 +458,93 @@
 <ul class="simple">
 <li><p>GPU 仪表需要 NVML（<code class="docutils literal notranslate"><span class="pre">pynvml</span></code>）和工作的 NVML 环境。如果不可用，TuFT 将优雅地跳过 GPU 指标。</p></li>
 </ul>
+</section>
+</section>
+<hr class="docutils"/>
+<section id="id15">
+<h2>端到端示例<a class="headerlink" href="#id15" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id15'">¶</a></h2>
+<p>本节演示如何将 TuFT 与可观测性后端配合使用。我们以 <a class="reference external" href="https://signoz.io/">SigNoz</a> 为例，因为它在单一平台中集成了追踪、指标和日志的统一后端，便于同时展示三大可观测性支柱。</p>
+<blockquote>
+<div><p><strong>可替代的后端</strong>：TuFT 导出标准 OTLP 数据，可与任何兼容 OpenTelemetry 的后端配合使用：</p>
+<ul class="simple">
+<li><p><strong>追踪</strong>：Jaeger、Zipkin、Tempo、Datadog 等</p></li>
+<li><p><strong>指标</strong>：Prometheus（通过 OTLP 或 Prometheus exporter）、Grafana Mimir 等</p></li>
+<li><p><strong>日志</strong>：Loki、Elasticsearch 等</p></li>
+</ul>
+<p>只需将 <code class="docutils literal notranslate"><span class="pre">telemetry.otlp_endpoint</span></code> 指向您偏好的收集器或后端即可。</p>
+</div></blockquote>
+<section id="id16">
+<h3>前置条件<a class="headerlink" href="#id16" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id16'">¶</a></h3>
+<ul class="simple">
+<li><p>已安装 <a class="reference external" href="https://docs.docker.com/get-docker/">Docker</a> 和 <a class="reference external" href="https://docs.docker.com/compose/install/">Docker Compose</a></p></li>
+</ul>
+</section>
+<section id="signoz">
+<h3>第一步：启动 SigNoz<a class="headerlink" href="#signoz" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#signoz'">¶</a></h3>
+<p>推荐使用 Docker Compose 安装 SigNoz，示例如下。也可参考 <a class="reference external" href="https://signoz.io/docs/install/">SigNoz 安装指南</a> 中提供的其他安装方式（安装脚本、Docker Swarm、Kubernetes 等）。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>main<span class="w"> </span>https://github.com/SigNoz/signoz.git<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>signoz/deploy/docker
+</span><span id="line-2">docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>--remove-orphans
+</span></code></pre></div>
+</div>
+<p>SigNoz 将在 <code class="docutils literal notranslate"><span class="pre">localhost:4317</span></code> 上启动 OTLP 接收器。</p>
+</section>
+<section id="id17">
+<h3>第二步：配置 TuFT<a class="headerlink" href="#id17" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id17'">¶</a></h3>
+<p>在 <code class="docutils literal notranslate"><span class="pre">tuft_config.yaml</span></code> 中添加以下 telemetry 配置：</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nt">telemetry</span><span class="p">:</span>
+</span><span id="line-2"><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="line-3"><span class="w">  </span><span class="nt">service_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tuft</span>
+</span><span id="line-4"><span class="w">  </span><span class="nt">otlp_endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://localhost:4317</span>
+</span><span id="line-5"><span class="w">  </span><span class="nt">resource_attributes</span><span class="p">:</span>
+</span><span id="line-6"><span class="w">    </span><span class="nt">deployment.environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id18">
+<h3>第三步：启动 TuFT 并运行任务<a class="headerlink" href="#id18" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id18'">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">tuft<span class="w"> </span>launch<span class="w"> </span>--config<span class="w"> </span>/path/to/tuft_config.yaml
+</span></code></pre></div>
+</div>
+<p>通过 TuFT 客户端执行训练或推理操作，产生 telemetry 数据。</p>
+</section>
+<section id="id19">
+<h3>第四步：在 SigNoz 中查看<a class="headerlink" href="#id19" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id19'">¶</a></h3>
+<p>打开 SigNoz（<code class="docutils literal notranslate"><span class="pre">http://localhost:8080</span></code>）查看采集到的数据。</p>
+<section id="traces">
+<h4>追踪（Traces）<a class="headerlink" href="#traces" title="Link to this heading">¶</a></h4>
+<p>TuFT 会在每个 span 上附加结构化的关联键，便于在 Traces Explorer 中进行灵活过滤。</p>
+<p><strong>通过 <code class="docutils literal notranslate"><span class="pre">tuft.session_id</span></code> 过滤</strong> — 追踪以 session 为单位的所有任务。通过指定 <code class="docutils literal notranslate"><span class="pre">tuft.session_id</span></code> 进行过滤，可以看到该 session 下横跨训练和推理的所有 span，获得 session 维度的全景视图：</p>
+<a class="reference internal image-reference" href="../_images/traces_filter_by_session_id.png"><img alt="按会话 ID 过滤的追踪" src="../_images/traces_filter_by_session_id.png" style="width: 100%;"/>
+</a>
+<p><strong>通过 <code class="docutils literal notranslate"><span class="pre">tuft.training_run_id</span></code> 过滤</strong> — 追踪以某个训练客户端为单位的所有任务。通过 <code class="docutils literal notranslate"><span class="pre">tuft.training_run_id</span></code> 过滤可隔离出该训练客户端完整生命周期内的所有 span，如 <code class="docutils literal notranslate"><span class="pre">run_forward_backward</span></code>、<code class="docutils literal notranslate"><span class="pre">run_optim_step</span></code>、<code class="docutils literal notranslate"><span class="pre">save_checkpoint</span></code> 等训练操作及其执行顺序：</p>
+<a class="reference internal image-reference" href="../_images/traces_filter_by_training_run_id.png"><img alt="按训练运行 ID 过滤的追踪" src="../_images/traces_filter_by_training_run_id.png" style="width: 100%;"/>
+</a>
+<p><strong>通过 <code class="docutils literal notranslate"><span class="pre">tuft.sampling_session_id</span></code> 过滤</strong> — 追踪以某个推理客户端为单位的所有任务。通过 <code class="docutils literal notranslate"><span class="pre">tuft.sampling_session_id</span></code> 过滤可精确定位到单个推理会话内的 span，如 <code class="docutils literal notranslate"><span class="pre">sampling_controller.run_sample</span></code> 和 <code class="docutils literal notranslate"><span class="pre">sampling_controller.create_sampling_session</span></code>：</p>
+<a class="reference internal image-reference" href="../_images/traces_filter_by_sampling_session_id.png"><img alt="按推理会话 ID 过滤的追踪" src="../_images/traces_filter_by_sampling_session_id.png" style="width: 100%;"/>
+</a>
+<p><strong>以 HTTP 请求为单位查看链路追踪</strong> — 一次 HTTP 请求产生的所有 span 共享同一个 trace ID，通过该 trace ID 可查看此请求的完整执行路径。下方的 Flamegraph 视图展示了从 HTTP 接收、内部处理、状态持久化到后端执行的完整 span 树：</p>
+<a class="reference internal image-reference" href="../_images/traces_http_request_spans.png"><img alt="单次 HTTP 请求的追踪链路" src="../_images/traces_http_request_spans.png" style="width: 100%;"/>
+</a>
+</section>
+<section id="logs">
+<h4>日志（Logs）<a class="headerlink" href="#logs" title="Link to this heading">¶</a></h4>
+<p>TuFT 发出的每条日志都自动关联了 <strong>span ID</strong> 和 <strong>trace ID</strong>。通过这两个标识符可精确定位该日志所属的操作步骤；反之，也可从某个 span 导航到其关联的所有日志：</p>
+<a class="reference internal image-reference" href="../_images/logs_span_trace_correlation.png"><img alt="日志与 span ID 和 trace ID 的关联" src="../_images/logs_span_trace_correlation.png" style="width: 100%;"/>
+</a>
+</section>
+<section id="metrics">
+<h4>指标（Metrics）<a class="headerlink" href="#metrics" title="Link to this heading">¶</a></h4>
+<p>在 SigNoz 的 Metrics 页面可以浏览 TuFT 发出的所有指标，查看每个指标的类型、单位和样本数：</p>
+<a class="reference internal image-reference" href="../_images/metrics_overview.png"><img alt="SigNoz 中的指标概览" src="../_images/metrics_overview.png" style="width: 100%;"/>
+</a>
+<p>也可以在 SigNoz Dashboard 中配置自定义 panel 来监控特定指标。以下以训练吞吐量和推理 QPS 为例，展示两个 panel 的配置方式；更多 panel 可根据实际需求自行配置。</p>
+<p><strong>训练吞吐量（tokens/s）监控</strong> — 通过 <code class="docutils literal notranslate"><span class="pre">tuft.training.tokens_per_second</span></code> 指标配置 panel，使用 P50 聚合并按 <code class="docutils literal notranslate"><span class="pre">base_model</span></code> 分组，实时监控训练效率：</p>
+<a class="reference internal image-reference" href="../_images/dashboard_training_throughput.png"><img alt="训练吞吐量仪表盘面板" src="../_images/dashboard_training_throughput.png" style="width: 100%;"/>
+</a>
+<p><strong>推理请求速率（QPS）监控</strong> — 通过 <code class="docutils literal notranslate"><span class="pre">tuft.sampling.requests</span></code> 指标配置 panel，使用 Rate 聚合并按 <code class="docutils literal notranslate"><span class="pre">base_model</span></code> 分组，监控推理吞吐量与流量峰值：</p>
+<a class="reference internal image-reference" href="../_images/dashboard_sampling_qps.png"><img alt="推理吞吐量仪表盘面板" src="../_images/dashboard_sampling_qps.png" style="width: 100%;"/>
+</a>
+</section>
 </section>
 </section>
 </section>
@@ -490,21 +564,31 @@
 <li><a :data-current="activeSection === '#id8'" class="reference internal" href="#id8">日志</a></li>
 </ul>
 </li>
-<li><a :data-current="activeSection === '#id9'" class="reference internal" href="#id9">关联/共享键</a><ul>
-<li><a :data-current="activeSection === '#id10'" class="reference internal" href="#id10">实践中如何使用这些键</a></li>
-</ul>
-</li>
+<li><a :data-current="activeSection === '#id9'" class="reference internal" href="#id9">关联/共享键</a></li>
 <li><a :data-current="activeSection === '#ray-actor'" class="reference internal" href="#ray-actor">上下文传播（Ray actor）</a></li>
-<li><a :data-current="activeSection === '#id11'" class="reference internal" href="#id11">开发者指南</a><ul>
+<li><a :data-current="activeSection === '#id10'" class="reference internal" href="#id10">开发者指南</a><ul>
 <li><a :data-current="activeSection === '#span'" class="reference internal" href="#span">创建 span</a></li>
-<li><a :data-current="activeSection === '#id12'" class="reference internal" href="#id12">记录指标</a></li>
-<li><a :data-current="activeSection === '#id13'" class="reference internal" href="#id13">选择属性</a></li>
+<li><a :data-current="activeSection === '#id11'" class="reference internal" href="#id11">记录指标</a></li>
+<li><a :data-current="activeSection === '#id12'" class="reference internal" href="#id12">选择属性</a></li>
 </ul>
 </li>
-<li><a :data-current="activeSection === '#id14'" class="reference internal" href="#id14">推荐的收集器配置</a></li>
-<li><a :data-current="activeSection === '#id15'" class="reference internal" href="#id15">故障排除</a><ul>
-<li><a :data-current="activeSection === '#id16'" class="reference internal" href="#id16">没有遥测显示</a></li>
+<li><a :data-current="activeSection === '#id13'" class="reference internal" href="#id13">推荐的收集器配置</a></li>
+<li><a :data-current="activeSection === '#id14'" class="reference internal" href="#id14">故障排除</a><ul>
+<li><a :data-current="activeSection === '#telemetry'" class="reference internal" href="#telemetry">Telemetry 数据未上报</a></li>
 <li><a :data-current="activeSection === '#gpu'" class="reference internal" href="#gpu">GPU 指标缺失</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id15'" class="reference internal" href="#id15">端到端示例</a><ul>
+<li><a :data-current="activeSection === '#id16'" class="reference internal" href="#id16">前置条件</a></li>
+<li><a :data-current="activeSection === '#signoz'" class="reference internal" href="#signoz">第一步：启动 SigNoz</a></li>
+<li><a :data-current="activeSection === '#id17'" class="reference internal" href="#id17">第二步：配置 TuFT</a></li>
+<li><a :data-current="activeSection === '#id18'" class="reference internal" href="#id18">第三步：启动 TuFT 并运行任务</a></li>
+<li><a :data-current="activeSection === '#id19'" class="reference internal" href="#id19">第四步：在 SigNoz 中查看</a><ul>
+<li><a :data-current="activeSection === '#traces'" class="reference internal" href="#traces">追踪（Traces）</a></li>
+<li><a :data-current="activeSection === '#logs'" class="reference internal" href="#logs">日志（Logs）</a></li>
+<li><a :data-current="activeSection === '#metrics'" class="reference internal" href="#metrics">指标（Metrics）</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
