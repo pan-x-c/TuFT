@@ -102,7 +102,7 @@
 <li class="toctree-l2"><a class="reference internal" href="countdown-rl.html">Countdown Reinforcement Learning (RL)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="persistence.html">Persistence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="telemetry.html">Observability (OpenTelemetry)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="console.html">Console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="console.html">User console</a></li>
 </ul>
 </li>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../development/index.html">Development<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
@@ -133,7 +133,7 @@
 <div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Chat Supervised Fine-Tuning (SFT)</span>
 </nav>
 <div id="content" role="main">
-<section id="chat-supervised-fine-tuning-sft">
+<section class="tex2jax_ignore mathjax_ignore" id="chat-supervised-fine-tuning-sft">
 <h1>Chat Supervised Fine-Tuning (SFT)<a class="headerlink" href="#chat-supervised-fine-tuning-sft" title="Link to this heading">¶</a></h1>
 <p>This guide demonstrates <strong>supervised fine-tuning (SFT)</strong> on <strong>chat-formatted data</strong> using a <strong>running TuFT server</strong>. Full runnable code is in the <code class="docutils literal notranslate"><span class="pre">examples/chat_sft/chat_sft.ipynb</span></code> notebook. Although this is a general SFT guide, it also documents common issues users may encounter when using TuFT for SFT and provides step-by-step guidance to help them successfully complete an end-to-end run.</p>
 <hr class="docutils"/>
@@ -344,9 +344,10 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">loss_fn="cross_entropy"</span></code></p></li>
 </ul>
 <p>TuFT returns per-token log probabilities (<code class="docutils literal notranslate"><span class="pre">logprobs</span></code>). The guide computes <strong>masked Negative Log-Likelihood (NLL)</strong>:</p>
-<p>$$
-\mathrm{NLL}=\frac{\sum_{t}\bigl(-\log p(y_t)\bigr),w_t}{\sum_{t} w_t}
-$$</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{NLL}=\frac{\sum_{t}\bigl(-\log p(y_t)\bigr)\,w_t}{\sum_{t} w_t}
+\]</div>
 <p>Minimal computation:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">masked_nll</span><span class="p">(</span><span class="n">loss_fn_outputs</span><span class="p">,</span> <span class="n">datums</span><span class="p">):</span>
 </span><span id="line-2">    <span class="n">total_loss</span><span class="p">,</span> <span class="n">total_w</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
@@ -552,6 +553,8 @@ Use the standard <code class="docutils literal notranslate"><span class="pre">tq
 <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
 <script defer="defer" src="../_static/theme.js?v=582b20c5"></script>
 <script src="../_static/design-tabs.js?v=f930bc37"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script src="../_static/custom.js?v=d0898e36"></script>
 </body>
 </html>

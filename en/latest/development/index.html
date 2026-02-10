@@ -33,7 +33,7 @@
 <link href="../search.html" rel="search" title="Search"/>
 <link href="../genindex.html" rel="index" title="Index"/>
 <link href="testing.html" rel="next" title="Testing Guide"/>
-<link href="../user-guide/console.html" rel="prev" title="Console"/>
+<link href="../user-guide/console.html" rel="prev" title="User console"/>
 </head>
 <body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
 <div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
@@ -102,7 +102,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../user-guide/countdown-rl.html">Countdown Reinforcement Learning (RL)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user-guide/persistence.html">Persistence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user-guide/telemetry.html">Observability (OpenTelemetry)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user-guide/console.html">Console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/console.html">User console</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="current reference internal expandable" href="#">Development<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
@@ -132,7 +132,7 @@
 <div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Development</span>
 </nav>
 <div id="content" role="main">
-<section id="development">
+<section class="tex2jax_ignore mathjax_ignore" id="development">
 <h1>Development<a class="headerlink" href="#development" title="Link to this heading">¶</a></h1>
 <p>This section covers development setup, testing, and contributing to TuFT.</p>
 <div class="sd-container-fluid sd-sphinx-override sd-mb-4 docutils">

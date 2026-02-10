@@ -102,7 +102,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Countdown Reinforcement Learning (RL)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="persistence.html">Persistence</a></li>
 <li class="toctree-l2"><a class="reference internal" href="telemetry.html">Observability (OpenTelemetry)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="console.html">Console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="console.html">User console</a></li>
 </ul>
 </li>
 <li class="toctree-l1" x-data="{ expanded: $el.classList.contains('current') ? true : false }"><a :class="{ 'expanded' : expanded }" @click="expanded = !expanded" class="reference internal expandable" href="../development/index.html">Development<button @click.prevent.stop="expanded = !expanded" type="button" x-cloak=""><span class="sr-only"></span><svg fill="currentColor" height="18px" stroke="none" viewbox="0 0 24 24" width="18px" xmlns="http://www.w3.org/2000/svg"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg></button></a><ul x-cloak="" x-show="expanded">
@@ -133,7 +133,7 @@
 <div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">Countdown Reinforcement Learning (RL)</span>
 </nav>
 <div id="content" role="main">
-<section id="countdown-reinforcement-learning-rl">
+<section class="tex2jax_ignore mathjax_ignore" id="countdown-reinforcement-learning-rl">
 <h1>Countdown Reinforcement Learning (RL)<a class="headerlink" href="#countdown-reinforcement-learning-rl" title="Link to this heading">¶</a></h1>
 <p>This guide demonstrates <strong>reinforcement learning (RL)</strong> fine-tuning on the <strong>Countdown</strong> dataset using a <strong>running TuFT server</strong>. Full runnable code is in the <code class="docutils literal notranslate"><span class="pre">examples/countdown_rl/countdown_rl.ipynb</span></code> notebook. Although this is a general RL guide, it also documents common issues users may encounter when using TuFT for RL and provides step-by-step guidance to help them successfully complete an end-to-end run.</p>
 <hr class="docutils"/>
@@ -257,7 +257,7 @@
 <li><p>If not exact:</p>
 <ul>
 <li><p>either give only a small constant <code class="docutils literal notranslate"><span class="pre">FORMAT_SCORE</span></code> (sparse)</p></li>
-<li><p>or use <strong>continuous shaping</strong>, e.g.: $r = r_{\mathrm{fmt}} + \left(1 - r_{\mathrm{fmt}}\right)\frac{1}{1 + \left|y - \mathrm{target}\right|}$</p></li>
+<li><p>or use <strong>continuous shaping</strong>, e.g.: <span class="math notranslate nohighlight">\(r = r_{\mathrm{fmt}} + \left(1 - r_{\mathrm{fmt}}\right)\frac{1}{1 + \left|y - \mathrm{target}\right|}\)</span></p></li>
 </ul>
 </li>
 </ul>
@@ -307,18 +307,18 @@
 </ul>
 <p>Then compute <strong>within-group</strong> statistics:</p>
 <ul class="simple">
-<li><p>Within-group mean reward: $\mu$</p></li>
-<li><p>Within-group reward std: $\sigma$</p></li>
+<li><p>Within-group mean reward: <span class="math notranslate nohighlight">\(\mu\)</span></p></li>
+<li><p>Within-group reward std: <span class="math notranslate nohighlight">\(\sigma\)</span></p></li>
 </ul>
 <p>Advantages are normalized <strong>within the same group</strong>:</p>
 <ul class="simple">
-<li><p>For sample $i$: $A_i=\frac{r_i-\mu}{\sigma+\varepsilon}$</p></li>
+<li><p>For sample <span class="math notranslate nohighlight">\(i\)</span>: <span class="math notranslate nohighlight">\(A_i=\frac{r_i-\mu}{\sigma+\varepsilon}\)</span></p></li>
 </ul>
 <p>This is GRPO-like in spirit:</p>
 <ul class="simple">
 <li><p>It learns from <strong>relative quality</strong> among samples from the same prompt (group-wise comparison/ranking).</p></li>
 <li><p>It reduces the need for a learned value function.</p></li>
-<li><p>It is sensitive to reward variance: if $\sigma$ is ~0, the prompt is skipped because there is no useful learning signal.</p></li>
+<li><p>It is sensitive to reward variance: if <span class="math notranslate nohighlight">\(\sigma\)</span> is ~0, the prompt is skipped because there is no useful learning signal.</p></li>
 </ul>
 <p><strong>Intuition</strong></p>
 <ul class="simple">
@@ -499,6 +499,8 @@ When LR is pushed too high, <code class="docutils literal notranslate"><span cla
 <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
 <script defer="defer" src="../_static/theme.js?v=582b20c5"></script>
 <script src="../_static/design-tabs.js?v=f930bc37"></script>
+<script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+<script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script src="../_static/custom.js?v=d0898e36"></script>
 </body>
 </html>
