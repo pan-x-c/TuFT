@@ -44,6 +44,10 @@ class BaseSamplingBackend(BaseBackend):
     async def remove_adapter(self, lora_id: str) -> None:
         """Remove LoRA adapter from the backend."""
 
+    def get_openai_api_url(self) -> Optional[str]:
+        """Return the vLLM OpenAI API base URL, or None if not available."""
+        return None
+
     @classmethod
     def create_backend(cls, config: ModelConfig) -> "BaseSamplingBackend":
         """Factory method to create a sampling backend instance."""
