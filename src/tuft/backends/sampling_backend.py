@@ -93,7 +93,7 @@ class VLLMSamplingBackend(BaseSamplingBackend):
             [{"CPU": 1, "GPU": 1} for _ in range(config.tensor_parallel_size)],
             strategy="PACK",
         )
-        ray.get(pg.ready(), timeout=10)
+        ray.get(pg.ready(), timeout=120)
         return (
             ray.remote(vLLMRolloutModel)
             .options(
@@ -122,6 +122,7 @@ class VLLMSamplingBackend(BaseSamplingBackend):
                         "max_lora_rank": config.max_lora_rank,
                         "max_loras": config.max_loras,
                     },
+                    gpu_memory_utilization=config.sampling_memory_fraction,
                 )
             )
         )
