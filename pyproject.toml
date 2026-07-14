@@ -1,6 +1,6 @@
 [project]
 name = "tuft"
-version = "0.1.7"
+version = "0.1.8"
 description = "A multi-tenant fine-tuning platform for LLMs with Tinker-compatible API"
 authors = [
     { name = "TuFT Developers", email = "tuft@list.alibaba-inc.com" }
@@ -11,14 +11,14 @@ requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.125.0",
     "httpx>=0.28.1",
-    "numpy<2.0.0",
+    "numpy>=2.0.0",
     "tinker>=0.18.2",
     "protobuf>=4.21.0",
     "typer>=0.20.1",
     "uvicorn[standard]>=0.38.0",
     "omegaconf>=2.3.0",
     "ray>=2.50.0",
-    "transformers>=4.57.3,<5.0.0",
+    "transformers>=5.2.0,<6.0.0",
     "opentelemetry-api>=1.20.0",
     "opentelemetry-sdk>=1.20.0",
     "opentelemetry-exporter-otlp>=1.20.0",
@@ -30,8 +30,17 @@ dependencies = [
     "torch>=2.0.0",
     "peft>=0.18.0",
     "tensordict>=0.5.0",
-    "verl",
-    "trinity-rft[vllm]>=0.4.1; sys_platform == 'linux'",
+    # Normal (registry-clean, publishable) metadata. The only released verl
+    # (0.8.0) hard-pins numpy<2.0.0, which conflicts with opencv (a vLLM dep,
+    # numpy>=2); verl #6551 (merged to main 2026-06-18) fixes this but is not yet
+    # released. We force the fixed commit via a uv override (see [tool.uv] below
+    # and scripts/verl-git-override.txt) rather than a direct URL here, so the
+    # published metadata stays clean and the <0.9 cap is honored.
+    "verl>=0.8.0,<0.9",
+    # Explicit vLLM cap matching trinity-rft 0.6's tested range (Qwen3.5 needs
+    # >=0.19.1; trinity caps <=0.23.0) so the published metadata is unambiguous.
+    "vllm>=0.19.1,<=0.23.0; sys_platform == 'linux'",
+    "trinity-rft[vllm]>=0.6.0; sys_platform == 'linux'",
 ]
 
 [project.scripts]
@@ -51,7 +60,7 @@ dev = [
 ]
 backend = [
     "datasets>=4.0.0",
-    "huggingface-hub>=0.20.0,<1.0"
+    "huggingface-hub>=1.3.0,<2.0"
 ]
 persistence = [
     "redis>=5.0.0",
@@ -124,6 +133,20 @@ ruff = ["--fix"]
 
 [tool.nbqa.exclude]
 ruff = "^(\\.venv|tinker)/"
+
+[tool.uv]
+# Canonical rationale and removal procedure: scripts/verl-git-override.txt.
+# Force verl to the #6551 commit (numpy>=2 + vLLM/nccl runtime fixes). A normal
+# direct requirement can't satisfy verl>=0.8,<0.9 (the commit reports 0.9.0.dev0);
+# an override replaces the constraint. Covers project-mode installs (uv pip
+# install -e . / . / .[dev] / --local-source). install.sh and docker pass the
+# same pin via --override scripts/verl-git-override.txt for registry/git installs.
+# Once verl publishes a release containing #6551, remove this project override
+# and leave scripts/verl-git-override.txt present but comment-only so installed
+# wrappers refresh away the temporary pin.
+override-dependencies = [
+    "verl @ git+https://github.com/verl-project/verl.git@14574ecf52e310055e4d6e9f116bcb14d343d7e0",
+]
 
 [tool.uv.extra-build-dependencies]
 flash-attn = ["torch", "numpy"]

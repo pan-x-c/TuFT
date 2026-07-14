@@ -187,7 +187,13 @@ jobs:
       - name: Test upgrade command (from PyPI)
         run: |
           export PATH="${TUFT_HOME}/bin:$PATH"
+          # Prove an installed wrapper refreshes a stale pin before resolving.
+          printf '%s\n' 'verl==0.8.0' > "${TUFT_HOME}/scripts/verl-git-override.txt"
+          export TUFT_VERL_OVERRIDE_URL="file://${GITHUB_WORKSPACE}/scripts/verl-git-override.txt"
           tuft upgrade
+          cmp scripts/verl-git-override.txt "${TUFT_HOME}/scripts/verl-git-override.txt"
+          "${TUFT_HOME}/venv/bin/python" -c \
+            "from importlib.metadata import version; assert version('tuft') == '0.1.8'"
         env:
           TUFT_HOME: ${{ runner.temp }}/tuft
 
@@ -255,9 +261,14 @@ jobs:
         env:
           TUFT_HOME: ${{ runner.temp }}/tuft
 
-      - name: Test upgrade --from-source
+      - name: Test upgrade --from-source (real git path against this checkout)
         run: |
           export PATH="${TUFT_HOME}/bin:$PATH"
+          # Exercise the real VCS clone+build+resolve path (not --local-source),
+          # pointed at this checkout's git. Pin the exact commit ($GITHUB_SHA):
+          # a bare file:// repo has no origin/HEAD, so uv cannot infer a default
+          # branch and fails without an explicit rev.
+          export TUFT_GIT_URL="file://$GITHUB_WORKSPACE@$GITHUB_SHA"
           tuft upgrade --from-source
         env:
           TUFT_HOME: ${{ runner.temp }}/tuft
