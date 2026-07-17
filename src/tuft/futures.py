@@ -9,10 +9,11 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Callable, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_serializer, model_validator
 from tinker import types
 from tinker.types.try_again_response import TryAgainResponse
 
+from .compat import maybe_serialize_payload
 from .exceptions import (
     FutureCancelledException,
     FutureNotFoundException,
@@ -88,6 +89,20 @@ class FutureRecord(BaseModel):
             self.event.set()
         return self
 
+    @field_serializer("payload", mode="wrap")
+    def _serialize_payload(self, payload: Any, handler: Any, _info: Any) -> Any:
+        """Serialize payload to a JSON-safe form for Redis persistence.
+
+        ForwardBackwardOutput / SampleResponse are tinker dataclasses holding
+        numpy arrays (TensorData._numpy) that Pydantic cannot JSON-serialize.
+        Convert them via the same helper used for the HTTP response; every other
+        payload keeps Pydantic's default serialization.
+        """
+        converted = maybe_serialize_payload(payload)
+        if converted is payload:
+            return handler(payload)
+        return converted
+
 
 class FutureStore:
     """Runs controller work asynchronously and tracks each request's lifecycle."""
@@ -129,7 +144,13 @@ class FutureStore:
             # Use TTL for futures to prevent Redis from growing indefinitely
             # Futures are short-lived and can be safely expired
             ttl = get_redis_store().future_ttl
-            save_record(self._build_key(request_id), record, ttl_seconds=ttl)
+            success = save_record(self._build_key(request_id), record, ttl_seconds=ttl)
+            if not success:
+                # payload may contain non-serializable types (e.g. numpy.ndarray
+                # from training outputs).  Strip the payload and re-save so that
+                # the status (ready/failed) is persisted correctly.
+                record_without_payload = record.model_copy(update={"payload": None})
+                save_record(self._build_key(request_id), record_without_payload, ttl_seconds=ttl)
 
     def _allocate_future_id(self) -> int:
         """Allocate and return a new globally unique future_id."""
